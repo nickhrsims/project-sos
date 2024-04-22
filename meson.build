@@ -26,7 +26,7 @@ cmath = cc.find_library('m', required : false)
 sdl2 = dependency('SDL2', version : '2.26.5')
 sdl2_ttf = dependency('SDL2_ttf', version : '2.20.2')
 spdlog = dependency('spdlog', version : '1.13.0')
-cloveunit = dependency('clove-unit', version : '2.4.1')
+catch2 = dependency('catch2', version : '3.5.4')
 
 ### ----------------------------------------------------------------------------
 ### Primary Build Target
@@ -53,6 +53,6 @@ exe = executable('pong',
                 core_sources,
                 install : false,
                  include_directories : ['src'],
-                 dependencies : [ sdl2, sdl2_ttf, spdlog, cloveunit, cmath ],
+                 dependencies : core_deps,
 )
 
