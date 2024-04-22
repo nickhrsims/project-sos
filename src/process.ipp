@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <spdlog/spdlog.h>
 
+#include "input/input.h"
 #include "video/display.h"
 
 #include "process.h"
@@ -26,6 +27,12 @@ inline static void handle_event(SDL_Event &event) {
   case SDL_DISPLAYEVENT:
   case SDL_WINDOWEVENT:
     display.handle_event(event);
+    break;
+  case SDL_KEYDOWN:
+    sos::input::handle_keydown_event(event);
+    break;
+  case SDL_MOUSEBUTTONDOWN:
+    sos::input::handle_mousebuttondown_event(event);
     break;
   case SDL_QUIT:
     sos::process::stop();

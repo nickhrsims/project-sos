@@ -8,6 +8,8 @@ namespace sos {
  * Group Participation Authority.
  *
  * Issues and revokes memberships, and coordinates between member participants.
+ *
+ * (Just a list wrapper with element lifecycle awareness).
  */
 template <typename T> class group {
 public:
@@ -16,22 +18,40 @@ public:
    *
    * Moving out of scope will forfeit membership and execution participation.
    *
-   * NOTE: Consider implementing as an RAII wrapped list iterator
+   * Does not support copy or moev by design. Lifetime of membership must
+   * be shorter than the lifetime of the registered participant.
    */
-  struct membership {};
+  struct membership {
+    friend group<T>;
+    membership(group<T> &p_group_obj, std::list<T>::iterator p_iterator)
+        : group_{p_group_obj}, iterator_{p_iterator} {}
+    ~membership() { group_.revoke(*this); };
+
+    // --- Cannot copy or move
+    membership(const membership &) = delete;
+    membership(membership &&) = delete;
+    membership &operator=(const membership &) = delete;
+    membership &&operator=(membership &&) = delete;
+
+  private:
+    group<T> &group_;
+    std::list<T>::iterator iterator_;
+  };
 
   /**
    * Issue a membership token to an execution participant.
    */
-  membership issue(T);
+  membership issue(T t) {
+    return membership{*this, participants_.insert(participants_.end(), t)};
+  }
 
   /**
    * Revoke an execution participation token.
    */
-  void revoke(membership m);
+  void revoke(membership &m) { participants_.erase(m.iterator_); }
 
 protected:
-  std::list<T *> participants;
+  std::list<T> participants_;
 };
 
 } // namespace sos

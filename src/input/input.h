@@ -5,8 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-#include <SDL_events.h>
-#include <SDL_scancode.h>
+#include <SDL2/SDL.h>
 
 #include "keyboard.h"
 #include "mousebutton.h"
@@ -19,8 +18,9 @@
 //       group!!
 
 namespace sos::input {
+
 /**
- * Input Types.
+ * Supported input devices.
  */
 enum class device {
   none,
@@ -28,6 +28,17 @@ enum class device {
   mouse,
 };
 
+// -----------------------------------------------------------------------------
+// Input Group
+// -----------------------------------------------------------------------------
+
+/**
+ * Grouping of input events to action types.
+ *
+ * Supports registration and queries of input mappings with actions.
+ *
+ * Follows group semantics for callbacks observing input events.
+ */
 template <typename action_type>
 class group : public sos::group<std::function<void(action_type)>> {
 public:
@@ -41,22 +52,50 @@ public:
    */
   static group &get();
 
-  // --- Queries
+  /**
+   * Reset the action-input mappings for this group.
+   */
+  void reset();
+
+  /**
+   * Query a given action's state at this moment in time.
+   */
   bool is_action_pressed(action_type action);
 
-  // --- Commands
-  void reset(action_type null_action = 0);
+  /**
+   * Relate an action with a specific keyboard key.
+   */
   void configure_keyboard_action(action_type action, keyboard key);
-  void configure_mousebutton_action(action_type action, mouse button);
-  void handle_keyboard_event(const SDL_KeyboardEvent &event);
-  void handle_mousebutton_event(const SDL_MouseButtonEvent &event);
 
-  // --- Events
+  /**
+   * Relate an action with a specific mouse button.
+   */
+  void configure_mousebutton_action(action_type action, mouse button);
+
+  /**
+   * Register a callback to be notified whenever an input related to this
+   * group's action type is received.
+   *
+   * Returns a membership (observer subscription) that will invalidate
+   * the callback should the membership go out of scope.
+   * (See: group semantics in the documentation)
+   */
   membership on_action_pressed(callback_type callback);
 
-  // NOTE: Possible to remove when membership is implemented correctly
-  // NOTE: Consider membership custom revocation function
+  /**
+   * Manually remove input event observer.
+   */
   void off_action_pressed(membership);
+
+  /**
+   * Notify all observers of action mapped to given keyboard key.
+   */
+  void handle_keyboard(keyboard key);
+
+  /**
+   * Notify all observers of action mapped to given mouse button.
+   */
+  void handle_mouse(mouse button);
 
 private:
   // --- Utility Action Queires
@@ -65,6 +104,7 @@ private:
   bool is_mouse_button_action_pressed(action_type action);
 
   // --- Action Maps
+  // NOTE: One day, these should be templated bidirectional-maps
 
   /**
    * Relate actions to their input type.
@@ -73,89 +113,63 @@ private:
 
   /**
    * Relates actions to scancodes.
+   *
+   * Used for key-state queries.
    */
-  std::unordered_map<action_type, SDL_Scancode> action_to_scancode_map;
+  std::unordered_map<action_type, keyboard> action_to_keyboard_map;
 
   /**
    * Relates actions to mouse buttons.
    * (mouse buttons are referenced as unsigned bytes)
+   *
+   * Used for button-state queries.
    */
-  std::unordered_map<action_type, uint8_t> action_to_mousebutton_map;
+  std::unordered_map<action_type, mouse> action_to_mousebutton_map;
 
   /**
    * Relates scancodes to actions.
+   *
+   * Used for notify participants of specific action.
    */
-  action_type scancode_to_action_map[SDL_NUM_SCANCODES];
+  std::unordered_map<keyboard, action_type> keyboard_to_action_map;
+
   /**
    *Relates mouse buttons to actions.
    *
-   * SDL2 implementation-specific.
-   * SDL_mouse.h provides 5 macro-definitions ranging 1..5 inclusive.
-   * This means that the map must have a length of 6 to support all
-   * mouse indices (without needing to subject the mouse button, which
-   * would require an explanation everywhere it happens, and extra byte
-   * isn't much when compared to making sense of code).
+   * Used to notify participants of specific action.
    */
-  static const uint8_t mousebutton_count{6};
-  action_type
-      mousebutton_to_action_map[mousebutton_count]; // Read note above on magic
-                                                    // number `6`
-
-  /**
-   * Null action value. Assumed `0` unless otherwise configured.
-   */
-  action_type null_action = static_cast<action_type>(0);
+  std::unordered_map<mouse, action_type> mousebutton_to_action_map;
 };
 
-// ---------------------------------
-// Configuration
-// ---------------------------------
+// -----------------------------------------------------------------------------
+// Function API
+// -----------------------------------------------------------------------------
 
-// TODO: Remove
-// FIXME: This is an incomplete stub from legacy versions
-template <typename Action> struct config {
+/**
+ * Subscribe to actions of a given type.
+ */
+template <typename action_type>
+group<action_type>::membership on(std::function<void(action_type)> callback);
 
-  // It is undefined behavior to assign multiple inputs to the same action.
-  // TODO: Consider supporting multiple inputs / input-types per action.
+/**
+ * Reset the global input-action mappings.
+ */
+template <typename action_type> void reset();
 
-  /**
-   * Relate a keyboard key scancode to an action.
-   *
-   * This will cause the action to be triggered when the key is pressed.
-   */
-  void setKeyboardKeyDownAction(SDL_Scancode scancode, Action action);
+/**
+ * Query the state of an action.
+ */
+template <typename action_type> bool action(action_type action);
 
-  /**
-   * Relate a mouse button to an action.
-   *
-   * This will cause the action to be triggered when the button is pressed.
-   */
-  void setMouseButtonDownAction(uint8_t button, Action action);
+/**
+ * Relate an action with a keyboard key.
+ */
+template <typename action_type> void action(action_type action, keyboard key);
 
-private:
-  struct KeyboardKeyActionDescription {
-    KeyboardKeyActionDescription(){}; // by default do nothing interesting.
-    KeyboardKeyActionDescription(SDL_Scancode scancode);
-    device type;
-    SDL_Scancode scancode;
-  };
-
-  struct MouseButtonActionDescription {
-    MouseButtonActionDescription(){}; // by default do nothing interesting.
-    MouseButtonActionDescription(uint8_t button);
-    device type;
-    uint8_t button;
-  };
-
-  union ActionDescription {
-    ActionDescription(){};
-    device type;
-    KeyboardKeyActionDescription keyboard;
-    MouseButtonActionDescription mouse;
-  };
-
-  std::unordered_map<Action, ActionDescription> actionMap;
-};
+/**
+ * Relate an action with a mouse button.
+ */
+template <typename action_type> void action(action_type action, mouse button);
 
 } // namespace sos::input
 
