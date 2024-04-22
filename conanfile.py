@@ -7,7 +7,7 @@ from conan.tools.gnu import PkgConfig, PkgConfigDeps
 sdl2 = "sdl/2.26.5"
 sdl2_ttf = "sdl_ttf/2.20.2"
 spdlog = "spdlog/1.13.0"
-clove_unit = "clove-unit/2.4.1"
+catch2 = "catch2/3.5.4"
 
 
 ## Look into `system_requirements()`
@@ -29,7 +29,7 @@ class PongSdl2Cpp(ConanFile):
     author = "Nicholas H.R. Sims (nickhrsims@gmail.com)"
 
     settings = "os", "arch", "compiler", "build_type"
-    requires = (sdl2, sdl2_ttf, spdlog, clove_unit)
+    requires = (sdl2, sdl2_ttf, spdlog, catch2)
 
     options = {"shared": [True, False]}
     default_options = {"shared": False}
