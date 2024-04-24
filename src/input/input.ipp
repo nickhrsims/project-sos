@@ -43,6 +43,16 @@ namespace sos::input {
 // TODO: Support device-change notification subscriptions.
 // (Hello, this is IT. Is your gamepad plugged in?)
 
+// TODO: Support motions & gestures
+
+// TODO: API splitting (different levels of events + polling)
+//       both modelled on Godot
+//
+// NOTE: Events
+//       1. input_map (as opposed to group)
+//       2. input_event (as opposed to raw SDL2 events)
+//       3. etc.
+
 // -----------------------------------------------------------------------------
 // Global State Data
 // -----------------------------------------------------------------------------
@@ -63,6 +73,12 @@ static inline std::unordered_map<input_type, std::function<void(input_type)>>
 // Global Input Event Handlers
 // -----------------------------------------------------------------------------
 
+/**
+ * SDL_KEYDOWN event handler dispatch.
+ *
+ * Calling this with an event that was not received during an SDL_KEYDOWN event
+ * is considered undefined behavior.
+ */
 static inline void handle_keydown_event(const SDL_Event &event) {
 
   keyboard key{static_cast<keyboard>(event.key.keysym.scancode)};
@@ -72,6 +88,12 @@ static inline void handle_keydown_event(const SDL_Event &event) {
 }
 
 // TODO: Account for multiple mice
+/**
+ * SDL_MOUSEBUTTONDOWN event handler dispatch.
+ *
+ * Calling this with an event that was not received during an
+ * SDL_MOUSEBUTTONDOWN event is considered undefined behavior.
+ */
 inline void handle_mousebuttondown_event(const SDL_Event &event) {
   mouse button{static_cast<mouse>(event.button.button)};
   if (__data__::dispatch_map<mouse>.contains(button)) {
@@ -129,12 +151,10 @@ template <typename action_type> void action(action_type action, mouse button) {
 // Input Group Implementation
 // -----------------------------------------------------------------------------
 
-// --- group :: get() [get]
 template <typename action_type> group<action_type> &group<action_type>::get() {
   static group object;
   return object;
 }
-// --- group :: reset() [clear]
 template <typename action_type> void group<action_type>::reset() {
   // --- Keyboard Keys
 
@@ -159,7 +179,6 @@ template <typename action_type> void group<action_type>::reset() {
   action_to_device_map.clear();
 }
 
-// --- group :: is_action_pressed() [get]
 template <typename action_type>
 bool group<action_type>::is_action_pressed(action_type action) {
   switch (action_to_device_map[action]) {
@@ -176,7 +195,6 @@ bool group<action_type>::is_action_pressed(action_type action) {
   }
 }
 
-// --- group :: configure_keyboard_action(type, key) [set]
 template <typename action_type>
 void group<action_type>::assign_action(action_type action, keyboard key) {
   action_to_device_map[action] = device::keyboard;
@@ -184,7 +202,6 @@ void group<action_type>::assign_action(action_type action, keyboard key) {
   keyboard_to_action_map[key] = action;
 }
 
-// --- group :: configure_mousebutton_action(type, button) [set]
 template <typename action_type>
 void group<action_type>::assign_action(action_type action, mouse button) {
   action_to_device_map[action] = device::mouse;
@@ -192,21 +209,18 @@ void group<action_type>::assign_action(action_type action, mouse button) {
   mousebutton_to_action_map[button] = action;
 }
 
-// --- group :: on_action_pressed [observe]
 template <typename action_type>
 group<action_type>::membership group<action_type>::on_action_pressed(
     typename group<action_type>::callback_type callback) {
   return this->issue(callback);
 }
 
-// --- group :: off_action_pressed [unobserve]
 template <typename action_type>
 void group<action_type>::off_action_pressed(
     typename group<action_type>::membership membership) {
   this->revoke(membership);
 }
 
-// --- group :: handle_keyboard(key) [effect]
 template <typename action_type>
 void group<action_type>::handle_keyboard(keyboard key) {
   action_type action{keyboard_to_action_map[key]};
@@ -216,7 +230,6 @@ void group<action_type>::handle_keyboard(keyboard key) {
   }
 }
 
-// --- group :: handle_mouse(button) [effect]
 template <typename action_type>
 void group<action_type>::handle_mouse(mouse button) {
   action_type action{mousebutton_to_action_map[button]};
