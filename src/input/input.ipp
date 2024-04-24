@@ -178,8 +178,7 @@ bool group<action_type>::is_action_pressed(action_type action) {
 
 // --- group :: configure_keyboard_action(type, key) [set]
 template <typename action_type>
-void group<action_type>::configure_keyboard_action(action_type action,
-                                                   keyboard key) {
+void group<action_type>::assign_action(action_type action, keyboard key) {
   action_to_device_map[action] = device::keyboard;
   action_to_keyboard_map[action] = key;
   keyboard_to_action_map[key] = action;
@@ -187,8 +186,7 @@ void group<action_type>::configure_keyboard_action(action_type action,
 
 // --- group :: configure_mousebutton_action(type, button) [set]
 template <typename action_type>
-void group<action_type>::configure_mousebutton_action(action_type action,
-                                                      mouse button) {
+void group<action_type>::assign_action(action_type action, mouse button) {
   action_to_device_map[action] = device::mouse;
   action_to_mousebutton_map[action] = button;
   mousebutton_to_action_map[button] = action;

@@ -65,12 +65,12 @@ public:
   /**
    * Relate an action with a specific keyboard key.
    */
-  void configure_keyboard_action(action_type action, keyboard key);
+  void assign_action(action_type action, keyboard key);
 
   /**
    * Relate an action with a specific mouse button.
    */
-  void configure_mousebutton_action(action_type action, mouse button);
+  void assign_action(action_type action, mouse button);
 
   /**
    * Register a callback to be notified whenever an input related to this
