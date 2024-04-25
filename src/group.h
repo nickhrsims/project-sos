@@ -18,7 +18,7 @@ public:
    *
    * Moving out of scope will forfeit membership and execution participation.
    *
-   * Does not support copy or moev by design. Lifetime of membership must
+   * Does not support copy or move by design. Lifetime of membership must
    * be shorter than the lifetime of the registered participant.
    */
   struct membership {
