@@ -4,7 +4,7 @@
 
 #include <spdlog/spdlog.h>
 
-#include "input.h"
+#include "input_map.h"
 
 namespace sos::input {
 

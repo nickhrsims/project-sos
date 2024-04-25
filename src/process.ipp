@@ -5,7 +5,7 @@
 #include <SDL.h>
 #include <spdlog/spdlog.h>
 
-#include "input/input.h"
+#include "input/input_map.h"
 #include "video/display.h"
 
 #include "process.h"

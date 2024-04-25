@@ -26,7 +26,7 @@ cmath = cc.find_library('m', required : false)
 sdl2 = dependency('SDL2', version : '2.26.5')
 sdl2_ttf = dependency('SDL2_ttf', version : '2.20.2')
 spdlog = dependency('spdlog', version : '1.13.0')
-catch2 = dependency('catch2', version : '3.5.4')
+catch2 = dependency('catch2-with-main', version : '3.5.4')
 
 ### ----------------------------------------------------------------------------
 ### Primary Build Target
@@ -55,4 +55,20 @@ exe = executable('pong',
                  include_directories : ['src'],
                  dependencies : core_deps,
 )
+
+### ----------------------------------------------------------------------------
+### Tests
+### ----------------------------------------------------------------------------
+
+test('input-automated', executable('test-input-automated',
+  'src/input/tests/automated.cpp',
+  include_directories : ['src'],
+  dependencies : core_deps + [catch2],
+))
+
+test('input-interactive', executable('test-input-interactive',
+  'src/input/tests/interactive.cpp',
+  include_directories : ['src'],
+  dependencies : core_deps,
+))
 

@@ -185,4 +185,4 @@ template <typename action_type> void action(action_type action, mouse button);
 
 } // namespace sos::input
 
-#include "input.ipp"
+#include "input_map.ipp"

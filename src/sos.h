@@ -1,5 +1,5 @@
 #pragma once
-#include "input/input.h"
+#include "input/input_map.h"
 #include "process.h"
 #include "video/display.h"
 #include "video/renderer.h"
