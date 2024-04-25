@@ -19,7 +19,7 @@ catch2 = "catch2/3.5.4"
 
 ## create script for extracting header files by name from SDL2
 
-## create seoarate script for generating sos::input::keyboard and sos::input::mouse values
+## create separate script for generating sos::input::keyboard and sos::input::mouse values
 
 
 class PongSdl2Cpp(ConanFile):
