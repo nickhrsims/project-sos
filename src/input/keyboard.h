@@ -22,7 +22,7 @@ namespace sos::input::keyboard {
 // SDL_KeyboardEvent Dispatch Handler
 // -----------------------------------------------------------------------------
 
-void handle_sdl_event(const SDL_Event &p_event);
+void handle_event(const event &p_event);
 
 // -----------------------------------------------------------------------------
 // SOS Keyboard-Event Structure

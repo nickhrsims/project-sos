@@ -56,8 +56,8 @@ void observer_group::notify(event p_event) {
 // SDL_KeyboardEvent Dispatch Handler
 // -----------------------------------------------------------------------------
 
-void handle_sdl_event(const SDL_Event &p_event) {
-  observer_group::get().notify(p_event.key);
+void handle_event(const event &p_event) {
+  observer_group::get().notify(p_event);
 }
 
 // -----------------------------------------------------------------------------

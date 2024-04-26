@@ -33,7 +33,7 @@ TEST_CASE("smoke test", "[keyboard]") {
 
   while (SDL_PollEvent(&sdl_event)) {
     if (sdl_event.type == SDL_KEYDOWN) {
-      keyboard::handle_sdl_event(sdl_event);
+      keyboard::handle_event(sdl_event.key);
     }
   }
 
