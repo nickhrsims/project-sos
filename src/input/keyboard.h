@@ -81,7 +81,7 @@ struct observer_group : public group<std::function<void(event p_event)>> {
  *
  * Returns a subscription membership. Destuct the membership to unsubscribe.
  */
-observer_group::membership watch(observer_group::value_type callback);
+observer_group::membership on_event(observer_group::value_type callback);
 
 // -----------------------------------------------------------------------------
 // Query API

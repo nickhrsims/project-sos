@@ -17,7 +17,7 @@ TEST_CASE("smoke test", "[keyboard]") {
   std::unordered_map<keyboard::keycode, bool> was_keycode_pressed;
   std::unordered_map<keyboard::scancode, bool> was_scancode_pressed;
 
-  auto const observation = keyboard::watch([&](keyboard::event event) {
+  auto const observation = keyboard::on_event([&](keyboard::event event) {
     was_scancode_pressed[event.scancode] = true;
     was_keycode_pressed[event.keycode] = true;
   });

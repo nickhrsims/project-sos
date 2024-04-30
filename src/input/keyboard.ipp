@@ -64,7 +64,7 @@ void handle_event(const event &p_event) {
 // Keyboard-Event Subscriptions
 // -----------------------------------------------------------------------------
 
-observer_group::membership watch(observer_group::value_type callback) {
+observer_group::membership on_event(observer_group::value_type callback) {
   return observer_group::get().issue(callback);
 }
 
