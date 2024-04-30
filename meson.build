@@ -33,7 +33,6 @@ catch2 = dependency('catch2-with-main', version : '3.5.4')
 ### ----------------------------------------------------------------------------
 
 core_sources = [
-    'src/sos.cpp',
     'src/video/display.cpp',
     'src/video/renderer.cpp',
     'src/video/texture.cpp',
@@ -60,15 +59,8 @@ exe = executable('pong',
 ### Tests
 ### ----------------------------------------------------------------------------
 
-test('input-automated', executable('test-input-automated',
-  'src/input/tests/automated.cpp',
+test('input-keyboard', executable('test-input-keyboard',
+  'src/input/tests/keyboard_tests.cpp',
   include_directories : ['src'],
   dependencies : core_deps + [catch2],
 ))
-
-test('input-interactive', executable('test-input-interactive',
-  'src/input/tests/interactive.cpp',
-  include_directories : ['src'],
-  dependencies : core_deps,
-))
-
