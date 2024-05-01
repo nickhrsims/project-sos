@@ -64,3 +64,9 @@ test('input-keyboard', executable('test-input-keyboard',
   include_directories : ['src'],
   dependencies : core_deps + [catch2],
 ))
+
+test('input-indirection', executable('test-input-indirection',
+  'src/input/tests/indirection_tests.cpp',
+  include_directories : ['src'],
+  dependencies : core_deps + [catch2],
+))
