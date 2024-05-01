@@ -14,6 +14,10 @@ namespace sos {
 template <typename T> class group {
 public:
   /**
+   * Value type for reference.
+   */
+  using value_type = T;
+  /**
    * A handle representing member participation lifecycle.
    *
    * Moving out of scope will forfeit membership and execution participation.
