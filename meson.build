@@ -2,7 +2,7 @@
 ### Meson Configuration
 ### ----------------------------------------------------------------------------
 
-project('pong', 'c', 'cpp',
+project('sos', 'c', 'cpp',
   version : '0.1',
   default_options : [
     'c_std=c99',
@@ -40,6 +40,7 @@ core_sources = [
     'src/video/font.cpp',
     'src/atoms/vector2.cpp',
     'src/atoms/rect.cpp',
+    'src/sos.cpp',
     'src/main.cpp',
 ]
 
@@ -47,7 +48,7 @@ core_deps = [
     sdl2, sdl2_ttf, spdlog
 ]
 
-exe = executable('pong',
+exe = executable('sos-main',
                 'src/main.cpp',
                 core_sources,
                 install : false,
