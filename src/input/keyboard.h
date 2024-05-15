@@ -22,7 +22,7 @@ namespace sos::input::keyboard {
 // SDL_KeyboardEvent Dispatch Handler
 // -----------------------------------------------------------------------------
 
-void handle_event(const event &p_event);
+inline void handle_event(const event &p_event);
 
 // -----------------------------------------------------------------------------
 // SOS Keyboard-Event Structure
@@ -33,7 +33,7 @@ void handle_event(const event &p_event);
  */
 struct event : sos::input::event {
 
-  event(const SDL_KeyboardEvent &p_sdl_event);
+  inline event(const SDL_KeyboardEvent &p_sdl_event);
 
   // Metadata
   milliseconds timestamp;
@@ -68,8 +68,8 @@ struct event : sos::input::event {
 // -----------------------------------------------------------------------------
 
 struct observer_group : public group<std::function<void(event p_event)>> {
-  static observer_group &get();
-  void notify(event p_event);
+  static inline observer_group &get();
+  inline void notify(event p_event);
 };
 
 // -----------------------------------------------------------------------------
@@ -81,17 +81,17 @@ struct observer_group : public group<std::function<void(event p_event)>> {
  *
  * Returns a subscription membership. Destuct the membership to unsubscribe.
  */
-observer_group::membership on_event(observer_group::value_type callback);
+inline observer_group::membership on_event(observer_group::value_type callback);
 
 // -----------------------------------------------------------------------------
 // Query API
 // -----------------------------------------------------------------------------
 
-bool is_key_pressed(scancode p_scancode);
-bool is_key_pressed(keycode p_keycode);
+inline bool is_key_pressed(scancode p_scancode);
+inline bool is_key_pressed(keycode p_keycode);
 
-bool is_key_released(scancode p_scancode);
-bool is_key_released(keycode p_keycode);
+inline bool is_key_released(scancode p_scancode);
+inline bool is_key_released(keycode p_keycode);
 
 } // namespace sos::input::keyboard
 

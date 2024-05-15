@@ -5,9 +5,7 @@
 #include <SDL.h>
 #include <spdlog/spdlog.h>
 
-#include "input/input_map.h"
-#include "video/display.h"
-
+#include "input/keyboard.h"
 #include "process.h"
 
 // ---------------------------------
@@ -20,19 +18,10 @@ inline static bool active{false};
 // ---------------------------------
 // <unit> :: void handle_event()
 // ---------------------------------
-inline static void handle_event(SDL_Event &event) {
-  static auto &display{sos::video::display::get()};
-
-  switch (event.type) {
-  case SDL_DISPLAYEVENT:
-  case SDL_WINDOWEVENT:
-    display.handle_event(event);
-    break;
+inline static void handle_event(const SDL_Event &p_event) {
+  switch (p_event.type) {
   case SDL_KEYDOWN:
-    sos::input::handle_keydown_event(event);
-    break;
-  case SDL_MOUSEBUTTONDOWN:
-    sos::input::handle_mousebuttondown_event(event);
+    sos::input::keyboard::handle_event(p_event.key);
     break;
   case SDL_QUIT:
     sos::process::stop();
@@ -53,7 +42,7 @@ inline void sos::process::stop() { active = false; }
 // TODO: Template overload to support custom event handler
 template <typename Fn>
   requires std::invocable<Fn &, const float>
-inline void sos::process::start(Fn processing_function) {
+inline void sos::process::start(Fn p_processing_function) {
   typedef uint64_t ticks;
   typedef uint64_t milliseconds;
   typedef float interval;
@@ -100,7 +89,7 @@ inline void sos::process::start(Fn processing_function) {
     }
 
     // --- Process Frame
-    processing_function(frame_delta);
+    p_processing_function(frame_delta);
 
     // --- End Frame Timing
     //

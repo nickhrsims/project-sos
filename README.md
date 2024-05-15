@@ -9,10 +9,10 @@
 ```text
 .------------------------.
 | Task Breakdown         |                           .------.
-|                        |                        .--| Root | ---- [ NEXT ]
-|    2 / 9   Complete    |                       /   `------`
+|                        |                        .--| Root | ---- [ WIP ]
+|    2 / 9   Working     |                       /   `------`
 |                        |                    .-%-------.
-|  NEXT: Root & Process  |                    | Process | ---- [ NEXT ]
+|  NEXT: *               |                    | Process | ---- [ WIP ]
 `------------------------`                    %---------`
                                              /
             .--------------------.          /
@@ -43,12 +43,12 @@
   .--------( SOS Extension Modules )-------.
   |         `---------------------`        |
   |                                        |
-  |      .- [ 1 / 2 ]     [ TODO ]          |    .- [ 0 / 2 ]
-.-------/              .- - - - - -.   .-------/
-| Input |              : Alpha     :   | Video |          [ TODO ]
-`-------`             /: State     :   `-------`         /
-  |    .-------------/ : Expanding :        |    .------/
-  +`---| Indirection | `- - - - - -`        +`---| Text |    <(Will Require SDL2_TTF)>
+  |      .- [ 1 / 2 ]                      |    .- [ 0 / 2 ]
+.-------/                              .-------/
+| Input |               [ WIP ]        | Video |          [ TODO ]
+`-------`             /                `-------`         /
+  |    .-------------/                      |    .------/
+  +`---| Indirection |                      +`---| Text |    <(Will Require SDL2_TTF)>
   |    `-------------`                      |    `------`
   |    .--------.                           |    .-------.
   +`---| Config |                           +`---| Image |   <(Will Require SDL2_Image)>
