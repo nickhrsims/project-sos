@@ -7,8 +7,8 @@
 #include <SDL2/SDL.h>
 
 // --- Project
-#include "atoms/milliseconds.h"
 #include "group.h"
+#include "time/milliseconds.h"
 
 // --- Local
 #include "event.h"
@@ -36,7 +36,7 @@ struct event : sos::input::event {
   inline event(const SDL_KeyboardEvent &p_sdl_event);
 
   // Metadata
-  milliseconds timestamp;
+  sos::time::milliseconds timestamp;
   bool repeat;
 
   // Key Data

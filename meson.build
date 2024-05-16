@@ -38,8 +38,6 @@ core_sources = [
     'src/video/texture.cpp',
     'src/video/color.cpp',
     'src/video/font.cpp',
-    'src/atoms/vector2.cpp',
-    'src/atoms/rect.cpp',
     'src/sos.cpp',
     'src/main.cpp',
 ]
