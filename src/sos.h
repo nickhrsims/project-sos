@@ -1,7 +1,7 @@
 #pragma once
 #include "process.h"
-#include "video/display.h"
 #include "video/renderer.h"
+#include "video/window.h"
 
 namespace sos::root {
 
@@ -10,23 +10,24 @@ namespace sos::root {
  */
 struct config {
   bool headless;
-  video::display::config display;
-  video::renderer::config renderer;
+  video::window::config window;
 };
 
 /**
  * TODO:
  */
-void init(const config &);
+inline void init(const config &);
 
 /**
  * TODO:
  */
-void init();
+inline void init();
 
 /**
  * TODO:
  */
-void quit();
+inline void quit();
 
 } // namespace sos::root
+
+#include "sos.ipp"

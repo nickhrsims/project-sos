@@ -18,7 +18,7 @@ void start(Fn processing_function);
  *
  * \sa start
  */
-void stop();
+inline void stop();
 
 } // namespace sos::process
 

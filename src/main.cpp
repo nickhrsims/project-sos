@@ -1,3 +1,5 @@
+#include "demo/rect.h"
+#include "demo/vector2.h"
 #include "input/indirection.h"
 #include "sos.h"
 
@@ -6,19 +8,18 @@ int main() {
   // Initialize
   // ---------------------------------
 
-  sos::root::init({
-      false,
-      {"Example SOS App", 64, 64, 200, 200},
-      {},
-  });
+  sos::root::init({false, {"Example SOS App", 64, 64, 200, 200}});
 
   // ---------------------------------
   // Player Input Configuration
   // ---------------------------------
 
   // --- Player Data & Actions
-  int p1_pos = 0;
-  int p2_pos = 0;
+
+  struct player {
+    sos::demo::rect rect;
+    sos::demo::vector2 vel;
+  };
 
   enum class control { quit, report };
   enum class player_1 { up, down };
@@ -42,9 +43,6 @@ int main() {
         case control::quit:
           sos::process::stop();
           break;
-        case control::report:
-          spdlog::info("Player 1 :: {} | Player 2 :: {}", p1_pos, p2_pos);
-          break;
         default:
           break;
         }
@@ -54,11 +52,38 @@ int main() {
   // Primary Simulation Loop
   // ---------------------------------
 
+  player p1{
+      .rect{8, 8, 16, 16},
+      .vel{0, 0},
+  };
+  player p2;
+
   sos::process::start([&](float) {
-    p1_pos = action::is_value_pressed(player_1::down) -
-             action::is_value_pressed(player_1::up);
-    p2_pos = action::is_value_pressed(player_2::down) -
-             action::is_value_pressed(player_2::up);
+    namespace gfx = sos::video::renderer;
+
+    struct color {
+      int r;
+      int g;
+      int b;
+      int a;
+    };
+
+    static color black{0, 0, 0, 255};
+    static color white{255, 255, 255, 255};
+
+    // Input
+    p1.vel.y = action::is_value_pressed(player_1::down) -
+               action::is_value_pressed(player_1::up);
+    p2.vel.y = action::is_value_pressed(player_2::down) -
+               action::is_value_pressed(player_2::up);
+
+    gfx::set_color(black);
+    gfx::clear();
+    gfx::set_color(white);
+
+    gfx::draw(p1.rect);
+
+    gfx::show();
   });
 
   // ---------------------------------

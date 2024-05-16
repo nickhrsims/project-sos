@@ -42,7 +42,7 @@ inline void sos::process::stop() { active = false; }
 // TODO: Template overload to support custom event handler
 template <typename Fn>
   requires std::invocable<Fn &, const float>
-inline void sos::process::start(Fn p_processing_function) {
+void sos::process::start(Fn p_processing_function) {
   typedef uint64_t ticks;
   typedef uint64_t milliseconds;
   typedef float interval;

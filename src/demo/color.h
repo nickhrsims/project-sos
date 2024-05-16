@@ -4,7 +4,7 @@
 
 // TODO: Tests
 
-namespace sos::video {
+namespace sos::demo {
 struct color : SDL_Color {
   static const color generate(float r, float b, float g, float a);
 
@@ -14,4 +14,6 @@ struct color : SDL_Color {
   static const color black(float alpha);
   static const color black();
 };
-} // namespace sos::video
+} // namespace sos::demo
+
+#include "color.ipp"

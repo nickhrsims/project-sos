@@ -1,3 +1,4 @@
+#pragma once
 
 #include <SDL2/SDL.h>
 
@@ -6,13 +7,13 @@
 #include "sos.h"
 
 /** Enforce single-initialization. */
-static bool is_initialized{false};
+static inline bool is_initialized{false};
 
-void sos::root::init(const sos::root::config &config) {
+inline void sos::root::init(const sos::root::config &config) {
 
   // --- Enforce single-initialization
   if (is_initialized) {
-    spdlog::warn("Ignoring attempted re-initialization before calling quit().");
+    spdlog::warn("Ignoring attempted re-initialization before quitting.");
     return;
   }
 
@@ -46,30 +47,27 @@ void sos::root::init(const sos::root::config &config) {
     abort();
   }
 
-  // --- Initialize Sub-systems
-  sos::video::display::get().initialize(config.display);
-  sos::video::renderer::get().initialize(config.renderer);
+  // --- Create Window + Renderer
+  sos::video::window::create(config.window);
+  sos::video::renderer::create();
 }
 
-void sos::root::init() {
-  sos::root::init({
-      .headless = false,
-      .display =
-          {
-              .window_title = "SDL2-on-Stilts Application",
-              .window_x = 0,
-              .window_y = 0,
-              .window_width = 640,
-              .window_height = 480,
-          },
-      .renderer = {},
-  });
+inline void sos::root::init() {
+  // Just pass in some sane defaults
+  sos::root::init({.headless = false,
+                   .window = {
+                       .title = "SDL2-on-Stilts Application",
+                       .x = 0,
+                       .y = 0,
+                       .w = 640,
+                       .h = 480,
+                   }});
 }
 
-void sos::root::quit() {
+inline void sos::root::quit() {
   // --- Terminate Sub-systems
-  sos::video::renderer::get().terminate();
-  sos::video::display::get().terminate();
+  sos::video::renderer::destroy();
+  sos::video::window::destroy();
 
   TTF_Quit();
   SDL_Quit();

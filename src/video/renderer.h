@@ -1,43 +1,32 @@
 #pragma once
 
-#include "SDL_rect.h"
-#include "SDL_render.h"
+#include "SDL2/SDL.h"
 
-#include "display.h"
 #include "font.h"
 #include "texture.h"
+#include "window.h"
 
-namespace sos::video {
+namespace sos::video::renderer {
 
-// TODO: Tests
-class renderer {
+template <uint8_t index = 0> void create();
 
-public:
-  struct config {};
+template <uint8_t index = 0> void destroy();
 
-  ~renderer();
+template <uint8_t index = 0> void clear();
 
-  static renderer &get();
+template <uint8_t index = 0> void show();
 
-  void initialize(const config &config);
-  void terminate();
+template <uint8_t index = 0, typename Color> void set_color(const Color &color);
 
-  void clear() const;
-  void show() const;
-  void draw_rect(const SDL_Rect &rect, const SDL_Color &color) const;
-  // TODO: Support Vector2 positioning
-  void draw_texture(const texture &texture, int x, int y) const;
-  texture load_texture(const font &font, const std::string &text,
-                       const SDL_Color &color) const;
+template <uint8_t index = 0, typename Rect> void draw(const Rect &rect);
 
-private:
-  SDL_Renderer *sdl_renderer;
+template <uint8_t index = 0, typename Position>
+void draw(const texture &texture, const Position &position);
 
-  renderer();
-  renderer(const renderer &) = delete;
-  renderer(const renderer &&) = delete;
-  renderer &operator=(const renderer &) = delete;
-  renderer &operator=(const renderer &&) = delete;
-};
+template <uint8_t index = 0, typename Color>
+texture load_texture(const font &font, const Color &color,
+                     const std::string &text);
 
-} // namespace sos::video
+} // namespace sos::video::renderer
+
+#include "renderer.ipp"
