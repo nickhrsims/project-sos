@@ -29,22 +29,24 @@ spdlog = dependency('spdlog', version : '1.13.0')
 catch2 = dependency('catch2-with-main', version : '3.5.4')
 
 ### ----------------------------------------------------------------------------
-### Primary Build Target
+### Demo
 ### ----------------------------------------------------------------------------
 
 core_sources = [
-    'src/main.cpp',
+    'demo/main.cpp',
+    'demo/color.cpp',
+    'demo/rect.cpp',
+    'demo/vector2.cpp',
 ]
 
 core_deps = [
     sdl2, sdl2_ttf, spdlog
 ]
 
-exe = executable('sos-main',
-                'src/main.cpp',
+exe = executable('sos-demo',
                 core_sources,
                 install : false,
-                 include_directories : ['src'],
+                 include_directories : ['include'],
                  dependencies : core_deps,
 )
 
@@ -53,13 +55,13 @@ exe = executable('sos-main',
 ### ----------------------------------------------------------------------------
 
 test('input-keyboard', executable('test-input-keyboard',
-  'src/input/tests/keyboard_tests.cpp',
-  include_directories : ['src'],
+  'tests/input/keyboard_tests.cpp',
+  include_directories : ['include'],
   dependencies : core_deps + [catch2],
 ))
 
 test('input-indirection', executable('test-input-indirection',
-  'src/input/tests/indirection_tests.cpp',
-  include_directories : ['src'],
+  'tests/input/indirection_tests.cpp',
+  include_directories : ['include'],
   dependencies : core_deps + [catch2],
 ))
