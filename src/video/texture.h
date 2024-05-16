@@ -2,15 +2,13 @@
 
 #include <SDL.h>
 
-#include "font.h"
-
 namespace sos::video {
 
 // TODO: Tests
 struct texture {
   // --- Constructors, Destructor, Operators
   ~texture();
-  texture(SDL_Texture *rawSdlTexture);
+  texture(SDL_Texture *sdl_texture);
   texture(texture &&other);
   texture &operator=(texture &&rhs);
   // --- Disable copy
@@ -18,8 +16,8 @@ struct texture {
   texture &operator=(const texture &) = delete;
 
   // --- Member Functions
-  void setAlpha(unsigned char alpha);
-  void resetAlpha();
+  void set_alpha(unsigned char alpha);
+  void reset_alpha();
 
   // --- Data Members
   SDL_Texture *data;
@@ -27,3 +25,5 @@ struct texture {
   int h;
 };
 } // namespace sos::video
+
+#include "texture.ipp"

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <spdlog/spdlog.h>
 
 #include "font.h"
@@ -7,7 +9,7 @@ namespace sos::video {
 font::font(const std::string path, const int size)
     : data{TTF_OpenFont(path.c_str(), size)} {
   if (!data) {
-    spdlog::error("Cannot create Font object: {}", TTF_GetError());
+    spdlog::error("Cannot load font data: {}.", TTF_GetError());
     abort();
   }
 }
@@ -26,7 +28,5 @@ font &font::operator=(font &&rhs) {
   rhs.data = nullptr;
   return *this;
 }
-
-TTF_Font *font::get() const { return data; }
 
 } // namespace sos::video

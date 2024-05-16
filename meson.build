@@ -33,8 +33,6 @@ catch2 = dependency('catch2-with-main', version : '3.5.4')
 ### ----------------------------------------------------------------------------
 
 core_sources = [
-    'src/video/texture.cpp',
-    'src/video/font.cpp',
     'src/main.cpp',
 ]
 

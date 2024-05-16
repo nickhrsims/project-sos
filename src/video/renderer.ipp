@@ -73,7 +73,7 @@ void draw(const texture &p_texture, const Position &p_position) {
 template <uint8_t index, typename Color>
 texture load_texture(const font &font, const Color &color,
                      const std::string &text) {
-  SDL_Surface *surface = TTF_RenderText_Solid(font.get(), text.c_str(),
+  SDL_Surface *surface = TTF_RenderText_Solid(font.data, text.c_str(),
                                               static_cast<SDL_Color>(color));
   texture texture{
       SDL_CreateTextureFromSurface(__data__::sdl_renderer<index>, surface)};

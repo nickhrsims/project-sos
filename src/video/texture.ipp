@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 
 #include <spdlog/spdlog.h>
@@ -12,13 +14,13 @@ namespace sos::video {
 
 texture::~texture() { SDL_DestroyTexture(data); }
 
-texture::texture(SDL_Texture *rawSdlTexture) : data{rawSdlTexture} {
+texture::texture(SDL_Texture *p_sdl_texture) : data{p_sdl_texture} {
   if (!data) {
-    spdlog::error("Cannot create Texture object: {}", SDL_GetError());
+    spdlog::error("Cannot load texture data: {}.", SDL_GetError());
     abort();
   }
 
-  SDL_QueryTexture(rawSdlTexture, NULL, NULL, &w, &h);
+  SDL_QueryTexture(p_sdl_texture, NULL, NULL, &w, &h);
 }
 
 texture::texture(texture &&other) : data{other.data}, w{other.w}, h{other.h} {
@@ -40,9 +42,9 @@ texture &texture::operator=(texture &&other) {
 // Public API
 // -----------------------------------------------------------------------------
 
-void texture::setAlpha(unsigned char alpha) {
+void texture::set_alpha(unsigned char alpha) {
   SDL_SetTextureAlphaMod(data, alpha);
 }
-void texture::resetAlpha() { setAlpha(255); }
+void texture::reset_alpha() { set_alpha(255); }
 
 } // namespace sos::video

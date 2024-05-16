@@ -15,11 +15,12 @@ public:
   font(font &&other);
   font &operator=(font &&rhs);
 
-  TTF_Font *get() const;
+  TTF_Font *data;
 
 private:
-  TTF_Font *data;
   font(const font &other);
   font &operator=(const font &rhs);
 };
 } // namespace sos::video
+
+#include "font.ipp"
