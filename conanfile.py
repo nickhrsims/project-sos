@@ -22,10 +22,10 @@ catch2 = "catch2/3.5.4"
 ## create separate script for generating sos::input::keyboard and sos::input::mouse values
 
 
-class PongSdl2Cpp(ConanFile):
-    name = "Pong SDL2 C++"
-    version = "0.1"
-    description = "Pong. Implementation in C++ using SDL2."
+class ProjectSosDemo(ConanFile):
+    name = "Project-SOS Demo"
+    version = "1.0"
+    description = "Project-SOS Demo project."
     author = "Nicholas H.R. Sims (nickhrsims@gmail.com)"
 
     settings = "os", "arch", "compiler", "build_type"
