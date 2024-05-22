@@ -1,6 +1,7 @@
 #pragma once
 
 #include <concepts>
+#include <cstdint>
 
 namespace sos::process {
 
@@ -9,8 +10,8 @@ namespace sos::process {
  * \sa stop
  */
 template <typename Fn>
-  requires std::invocable<Fn &, const float>
-void start(Fn processing_function);
+    requires std::invocable<Fn&, const float>
+void start(Fn processing_function, uint8_t frames_per_second = 60);
 
 /**
  * Stop a previously started frame/event processing loop.
