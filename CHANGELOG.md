@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Keyboard input abstraction module
-- Input indirection support module
-- Documented Planning Diagram
+- Keyboard input abstraction module.
+- Input indirection support module.
+- Documented Planning Diagram.
+- First-class `rect`, `point`, and `color` structures.
+- Process-loop FPS parameterization.
+
+### Changed
+
+- Renderer function templates now accept concept-restricted types.
+
+### Fixed
+
+- Link-time issues related to `font` and `texture`.
