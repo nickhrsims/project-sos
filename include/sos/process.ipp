@@ -42,7 +42,7 @@ inline void sos::process::stop() { active = false; }
 // TODO: Template overload to support custom event handler
 template <typename Fn>
     requires std::invocable<Fn&, const float>
-void sos::process::start(Fn p_processing_function, uint8_t p_frames_per_second) {
+void sos::process::start(uint8_t p_frames_per_second, Fn p_processing_function) {
     typedef uint64_t ticks;
     typedef uint64_t milliseconds;
     typedef float interval;
@@ -109,6 +109,13 @@ void sos::process::start(Fn p_processing_function, uint8_t p_frames_per_second) 
     }
 
     spdlog::info("Application stopped");
+}
+
+// --- Defaulted framerate variant
+template <typename Fn>
+    requires std::invocable<Fn&, const float>
+void sos::process::start(Fn p_processing_function) {
+    start(20, p_processing_function);
 }
 
 #ifdef NEVER
