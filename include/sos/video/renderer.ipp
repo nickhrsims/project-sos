@@ -8,7 +8,7 @@
 #include <sos/video/window.h>
 
 namespace sos::video::renderer::__data__ {
-template <uint8_t index> static SDL_Renderer *sdl_renderer{nullptr};
+template <uint8_t index> SDL_Renderer* sdl_renderer{nullptr};
 }
 
 namespace sos::video::renderer {

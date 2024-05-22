@@ -9,7 +9,7 @@
 #include <sos/video/window.h>
 
 namespace sos::video::window::__data__ {
-template <uint8_t index> static SDL_Window *sdl_window{nullptr};
+template <uint8_t index> SDL_Window* sdl_window{nullptr};
 }
 
 namespace sos::video::window {
