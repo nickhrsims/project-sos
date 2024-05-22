@@ -22,10 +22,7 @@ catch2 = "catch2/3.5.4"
 ## create separate script for generating sos::input::keyboard and sos::input::mouse values
 
 
-class ProjectSosDemo(ConanFile):
-    name = "Project-SOS Demo"
-    version = "1.0"
-    description = "Project-SOS Demo project."
+class ProjectConanFile(ConanFile):
     author = "Nicholas H.R. Sims (nickhrsims@gmail.com)"
 
     settings = "os", "arch", "compiler", "build_type"
