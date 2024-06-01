@@ -10,5 +10,11 @@ enum class scancode {
     scancode_m = SDL_SCANCODE_M,
     scancode_q = SDL_SCANCODE_Q,
 
+    scancode_left  = SDL_SCANCODE_LEFT,
+    scancode_right = SDL_SCANCODE_RIGHT,
+    scancode_up    = SDL_SCANCODE_UP,
+    scancode_down  = SDL_SCANCODE_DOWN,
+
+    scancode_lshift = SDL_SCANCODE_LSHIFT,
 };
 }

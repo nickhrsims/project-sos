@@ -11,5 +11,10 @@ enum class keycode {
     key_q = SDLK_q,
 
     key_z = SDLK_z,
+
+    key_left  = SDLK_LEFT,
+    key_right = SDLK_RIGHT,
+    key_up    = SDLK_UP,
+    key_down  = SDLK_DOWN,
 };
 }
