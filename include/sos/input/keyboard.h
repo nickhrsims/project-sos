@@ -22,7 +22,7 @@ namespace sos::input::keyboard {
 // SDL_KeyboardEvent Dispatch Handler
 // -----------------------------------------------------------------------------
 
-inline void handle_event(const event &p_event);
+inline void handle_event(const event& p_event);
 
 // -----------------------------------------------------------------------------
 // SOS Keyboard-Event Structure
@@ -33,34 +33,34 @@ inline void handle_event(const event &p_event);
  */
 struct event : sos::input::event {
 
-  inline event(const SDL_KeyboardEvent &p_sdl_event);
+    inline event(const SDL_KeyboardEvent& p_sdl_event);
 
-  // Metadata
-  sos::time::milliseconds timestamp;
-  bool repeat;
+    // Metadata
+    sos::time::milliseconds timestamp;
+    bool repeat;
 
-  // Key Data
-  keyboard::scancode scancode;
-  keyboard::keycode keycode;
-  keyboard::keystate state;
+    // Key Data
+    keyboard::scancode scancode;
+    keyboard::keycode keycode;
+    keyboard::keystate state;
 
-  // Modifier Flags
-  bool left_shift : 1;
-  bool right_shift : 1;
-  bool left_ctrl : 1;
-  bool right_ctrl : 1;
-  bool left_alt : 1;
-  bool right_alt : 1;
-  bool left_meta : 1;
-  bool right_meta : 1;
-  bool num_lock : 1;
-  bool caps_lock : 1;
-  bool scroll_lock : 1;
-  bool mode : 1;
-  bool shift : 1;
-  bool ctrl : 1;
-  bool alt : 1;
-  bool meta : 1;
+    // Modifier Flags
+    bool left_shift : 1;
+    bool right_shift : 1;
+    bool left_ctrl : 1;
+    bool right_ctrl : 1;
+    bool left_alt : 1;
+    bool right_alt : 1;
+    bool left_meta : 1;
+    bool right_meta : 1;
+    bool num_lock : 1;
+    bool caps_lock : 1;
+    bool scroll_lock : 1;
+    bool mode : 1;
+    bool shift : 1;
+    bool ctrl : 1;
+    bool alt : 1;
+    bool meta : 1;
 };
 
 // -----------------------------------------------------------------------------
@@ -68,8 +68,8 @@ struct event : sos::input::event {
 // -----------------------------------------------------------------------------
 
 struct observer_group : public group<std::function<void(event p_event)>> {
-  static inline observer_group &get();
-  inline void notify(event p_event);
+    static inline observer_group& get();
+    inline void notify(event p_event);
 };
 
 // -----------------------------------------------------------------------------
